@@ -1,0 +1,39 @@
+=================== Overview ======================
+This project contains code for a part of speech tagger.
+The tagger is trained using a perceptron model.
+
+===================== Notes =======================
+- lib/ contains library code provided from a third party.
+- data/ contains the training data, development data, and
+  tagged development data key
+- all code can be run with Run.sh script
+
+===================== Details =====================
+
+How to run program:
+    1. python perceptron.py data/tag_train.dat > tagger.model
+        * uses perceptron algorithm to estimate weight vector
+    2. python tagger.py tagger.model data/tag_dev.dat > tag_dev.out
+        * computes highest scoring tagging for development data
+        * uses tag, bigram, and suffix features described below
+    3. python lib/eval_tagger.py data/tag_dev.key tag_dev.out
+        * evaluates tagger against a key
+    estimated run time ~ 1 minute 
+
+Features:
+    The perceptron model uses standard tag, bigram, and suffix features in
+    addition to these custom features:
+        TH:word:DET = 1 if word begins with Th and is DET, 0 otherwise
+        CAP:tag = 1 if "tag" tags a word that begins with capital letter, 0 otherwise
+        LEN:n:tag = 1 if "tag" tags a word of length n, 0 otherwise.
+
+Performance:
+    Output from eval_tagger.py
+    -----------------------------
+    2287 2459 0.930052867019
+
+    Our perceptron model for part-of-speech tagging was 93% accurate for the
+    development test data (tag_dev.dat).
+    Additional features could have been implemented for the perceptron in the
+    hopes of improving the part-of-speech tagger but this would be at the risk
+    of overfitting the model to the training data.
